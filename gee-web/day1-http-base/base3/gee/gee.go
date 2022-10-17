@@ -7,10 +7,12 @@ import (
 )
 
 // HandlerFunc defines the request handler used by gee
+// 路由映射的处理方法
 type HandlerFunc func(http.ResponseWriter, *http.Request)
 
 // Engine implement the interface of ServeHTTP
 type Engine struct {
+	// 路由映射表
 	router map[string]HandlerFunc
 }
 

@@ -17,6 +17,8 @@ import (
 // Engine is the uni handler for all requests
 type Engine struct{}
 
+// 实现Engine之后，我们拦截了所有的HTTP请求，拥有了统一的控制入口。
+// 在这里我们可以自由定义路由映射的规则，也可以统一添加一些处理逻辑，例如日志、异常处理等。
 func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	switch req.URL.Path {
 	case "/":

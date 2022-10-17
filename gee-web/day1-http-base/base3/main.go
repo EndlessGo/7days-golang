@@ -15,8 +15,11 @@ import (
 	"gee"
 )
 
+// 实现了路由映射表，提供了用户注册静态路由的方法，包装了启动服务的函数。
 func main() {
+	// 创建gee的实例
 	r := gee.New()
+	// 添加路由
 	r.GET("/", func(w http.ResponseWriter, req *http.Request) {
 		fmt.Fprintf(w, "URL.Path = %q\n", req.URL.Path)
 	})
@@ -27,5 +30,6 @@ func main() {
 		}
 	})
 
+	// 启动Web服务
 	r.Run(":9999")
 }
