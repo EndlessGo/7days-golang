@@ -39,6 +39,7 @@ func (engine *Engine) Run(addr string) (err error) {
 }
 
 func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	// 高效构造HTTP响应
 	c := newContext(w, req)
 	engine.router.handle(c)
 }

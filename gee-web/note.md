@@ -17,7 +17,10 @@ Web框架
 练手项目Gee，参考Gin
 
 #Day1 HTTP基础
-1. 简单介绍net/http库与http.Handler接口
-2. 搭建Gee框架雏形
+1、简单介绍net/http库与http.Handler接口
+2、搭建Gee框架雏形
 
+#Day2 上下文Context
+1、将路由(router)独立出来，方便之后增强。
+2、设计上下文(Context)，封装 Request 和 Response ，提供对 JSON、HTML 等返回类型的支持。
 

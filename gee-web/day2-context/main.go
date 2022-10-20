@@ -28,6 +28,9 @@ import (
 	"gee"
 )
 
+// 功能：
+// 1、Handler的参数变成成了gee.Context，提供了查询Query/PostForm参数的功能。
+// 2、gee.Context封装了HTML/String/JSON函数，能够快速构造HTTP响应。
 func main() {
 	r := gee.New()
 	r.GET("/", func(c *gee.Context) {
