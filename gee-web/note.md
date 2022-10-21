@@ -1,9 +1,13 @@
 # 自学补充知识
 Day0
-	HTTP知识
+	HTTP基础知识
 	各种Web框架源码
 	curl用法 https://www.ruanyifeng.com/blog/2019/09/curl-reference.html
-
+Day2
+	HTTP细节：
+		Request/Response
+		GET/POST
+		HTML/JSON
 
 #Day0 序言
 net/http提供了基础的Web功能：监听端口，映射静态路由，解析HTTP报文。
