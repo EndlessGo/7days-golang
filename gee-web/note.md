@@ -8,6 +8,8 @@ Day2
 		Request/Response
 		GET/POST
 		HTML/JSON
+Day3 
+	前缀树
 
 #Day0 序言
 net/http提供了基础的Web功能：监听端口，映射静态路由，解析HTTP报文。
@@ -28,3 +30,5 @@ Web框架
 1、将路由(router)独立出来，方便之后增强。
 2、设计上下文(Context)，封装 Request 和 Response ，提供对 JSON、HTML 等返回类型的支持。
 
+#Day3 前缀树路由
+1、使用 Trie 树实现动态路由(dynamic route)解析：支持两种模式:name和*filepath。

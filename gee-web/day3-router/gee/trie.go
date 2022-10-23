@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// 前缀树数据结构
 type node struct {
 	pattern  string
 	part     string
@@ -16,6 +17,7 @@ func (n *node) String() string {
 	return fmt.Sprintf("node{pattern=%s, part=%s, isWild=%t}", n.pattern, n.part, n.isWild)
 }
 
+// 插入，递归的
 func (n *node) insert(pattern string, parts []string, height int) {
 	if len(parts) == height {
 		n.pattern = pattern
@@ -31,6 +33,7 @@ func (n *node) insert(pattern string, parts []string, height int) {
 	child.insert(pattern, parts, height+1)
 }
 
+// 查找，递归的
 func (n *node) search(parts []string, height int) *node {
 	if len(parts) == height || strings.HasPrefix(n.part, "*") {
 		if n.pattern == "" {
@@ -61,6 +64,7 @@ func (n *node) travel(list *([]*node)) {
 	}
 }
 
+// 匹配第一个
 func (n *node) matchChild(part string) *node {
 	for _, child := range n.children {
 		if child.part == part || child.isWild {
@@ -70,6 +74,7 @@ func (n *node) matchChild(part string) *node {
 	return nil
 }
 
+// 匹配所有
 func (n *node) matchChildren(part string) []*node {
 	nodes := make([]*node, 0)
 	for _, child := range n.children {

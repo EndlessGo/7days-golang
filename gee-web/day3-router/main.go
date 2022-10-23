@@ -13,11 +13,11 @@ Content-Type: text/html; charset=utf-8
 $ curl "http://localhost:9999/hello?name=geektutu"
 hello geektutu, you're at /hello
 
-(3)
+(3) TODO:不太对？
 $ curl "http://localhost:9999/hello/geektutu"
 hello geektutu, you're at /hello/geektutu
 
-(4)
+(4) TODO:不太对？
 $ curl "http://localhost:9999/assets/css/geektutu.css"
 {"filepath":"css/geektutu.css"}
 

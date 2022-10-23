@@ -6,7 +6,9 @@ import (
 )
 
 type router struct {
-	roots    map[string]*node
+	// 不同方法GET/POST的前缀树映射，存根节点
+	roots map[string]*node
+	// 处理函数
 	handlers map[string]HandlerFunc
 }
 
@@ -18,6 +20,7 @@ func newRouter() *router {
 }
 
 // Only one * is allowed
+// 把路径/A/B/C拆开塞进parts数组[/A /B /C]
 func parsePattern(pattern string) []string {
 	vs := strings.Split(pattern, "/")
 
@@ -33,6 +36,7 @@ func parsePattern(pattern string) []string {
 	return parts
 }
 
+// 加入路由
 func (r *router) addRoute(method string, pattern string, handler HandlerFunc) {
 	parts := parsePattern(pattern)
 
@@ -45,6 +49,7 @@ func (r *router) addRoute(method string, pattern string, handler HandlerFunc) {
 	r.handlers[key] = handler
 }
 
+// 获取路由，返回多个
 func (r *router) getRoute(method string, path string) (*node, map[string]string) {
 	searchParts := parsePattern(path)
 	params := make(map[string]string)
