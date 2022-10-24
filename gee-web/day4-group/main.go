@@ -26,7 +26,7 @@ $ curl "http://localhost:9999/v2/hello/geektutu"
 hello geektutu, you're at /hello/geektutu
 
 (5)
-$ curl "http://localhost:9999/v2/login" -X POST -d 'username=geektutu&password=1234'
+$ curl "http://localhost:9999/v2/login" -X POST -d "username=geektutu&password=1234"
 {"password":"1234","username":"geektutu"}
 
 (6)

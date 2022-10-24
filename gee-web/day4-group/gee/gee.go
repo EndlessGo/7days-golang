@@ -11,10 +11,13 @@ type HandlerFunc func(*Context)
 // Engine implement the interface of ServeHTTP
 type (
 	RouterGroup struct {
-		prefix      string
+		// 分组前缀
+		prefix string
+		// 中间件
 		middlewares []HandlerFunc // support middleware
-		parent      *RouterGroup  // support nesting
-		engine      *Engine       // all groups share a Engine instance
+		// 父分组，支持嵌套
+		parent *RouterGroup // support nesting
+		engine *Engine      // all groups share a Engine instance
 	}
 
 	Engine struct {
@@ -34,6 +37,7 @@ func New() *Engine {
 
 // Group is defined to create a new RouterGroup
 // remember all groups share the same Engine instance
+// 创建分组
 func (group *RouterGroup) Group(prefix string) *RouterGroup {
 	engine := group.engine
 	newGroup := &RouterGroup{
