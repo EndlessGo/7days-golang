@@ -22,22 +22,25 @@ Web框架
 
 练手项目Gee，参考Gin
 
-#Day1 HTTP基础
+#Day1 HTTP 基础
 1、简单介绍net/http库与http.Handler接口
 2、搭建Gee框架雏形
 
-#Day2 上下文Context
+#Day2 Context 上下文
 1、将路由(router)独立出来，方便之后增强。
 2、设计上下文(Context)，封装 Request 和 Response ，提供对 JSON、HTML 等返回类型的支持。
 
-#Day3 前缀树路由
+#Day3 Trie 前缀树路由
 1、使用 Trie 树实现动态路由(dynamic route)解析：支持两种模式:name和*filepath。
 
-#Day4 分组控制
+#Day4 Group 分组控制
 1、实现路由分组控制(Route Group Control)
 
-#Day5 中间件
+#Day5 Middleware 中间件
 
-#Day6 模板（HTML Template）
+#Day6 HTML Template 模板
 1、实现静态资源服务(Static Resource)。
 2、支持HTML模板渲染。
+
+#Day7 Panic Recover 错误恢复
+1、实现错误处理机制。
