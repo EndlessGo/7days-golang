@@ -22,10 +22,12 @@ type (
 
 	Engine struct {
 		*RouterGroup
-		router        *router
-		groups        []*RouterGroup     // store all groups
+		router *router
+		groups []*RouterGroup // store all groups
+		// 将所有的模板加载进内存
 		htmlTemplates *template.Template // for html render
-		funcMap       template.FuncMap   // for html render
+		// 所有的自定义模板渲染函数
+		funcMap template.FuncMap // for html render
 	}
 )
 
@@ -87,7 +89,8 @@ func (group *RouterGroup) createStaticHandler(relativePath string, fs http.FileS
 	}
 }
 
-// serve static files
+// Static serve static files
+// 映射资源路径：用户可以将磁盘上的某个文件夹root映射到路由relativePath。例如
 func (group *RouterGroup) Static(relativePath string, root string) {
 	handler := group.createStaticHandler(relativePath, http.Dir(root))
 	urlPattern := path.Join(relativePath, "/*filepath")

@@ -37,3 +37,7 @@ Web框架
 1、实现路由分组控制(Route Group Control)
 
 #Day5 中间件
+
+#Day6 模板（HTML Template）
+1、实现静态资源服务(Static Resource)。
+2、支持HTML模板渲染。

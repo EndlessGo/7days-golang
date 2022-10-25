@@ -52,13 +52,27 @@ func FormatAsDate(t time.Time) string {
 	return fmt.Sprintf("%d-%02d-%02d", year, month, day)
 }
 
+// 目录结构
+//---gee/
+//---static/
+//   |---css/
+//        |---geektutu.css
+//   |---file1.txt
+//---templates/
+//   |---arr.tmpl
+//   |---css.tmpl
+//   |---custom_func.tmpl
+//---main.go
+
 func main() {
 	r := gee.New()
 	r.Use(gee.Logger())
 	r.SetFuncMap(template.FuncMap{
 		"FormatAsDate": FormatAsDate,
 	})
+	// 将所有的模板加载进内存
 	r.LoadHTMLGlob("templates/*")
+	// 用户访问localhost:9999/assets/js/geektutu.js，最终返回./static/js/geektutu.js。
 	r.Static("/assets", "./static")
 
 	stu1 := &student{Name: "Geektutu", Age: 20}
@@ -76,7 +90,8 @@ func main() {
 	r.GET("/date", func(c *gee.Context) {
 		c.HTML(http.StatusOK, "custom_func.tmpl", gee.H{
 			"title": "gee",
-			"now":   time.Date(2019, 8, 17, 0, 0, 0, 0, time.UTC),
+			//"now":   time.Date(2019, 8, 17, 0, 0, 0, 0, time.UTC),
+			"now": time.Now(),
 		})
 	})
 
