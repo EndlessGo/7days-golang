@@ -1,11 +1,8 @@
 # 7天用Go从零实现分布式缓存GeeCache
+
 # 自学补充知识
-Day0
-
-Day2
-
-Day3 
-
+Day1 
+    reflect.DeepEqual
 
 #Day0 序言
 1、分布式缓存
@@ -33,3 +30,5 @@ GeeCache 基本上模仿了 groupcache 的实现，为了将代码量限制在 5
 使用 Go 锁机制防止缓存击穿
 使用一致性哈希选择节点，实现负载均衡
 使用 protobuf 优化节点间二进制通信
+
+#Day1 LRU 缓存淘汰策略
