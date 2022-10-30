@@ -8,7 +8,8 @@ import (
 
 // A Group is a cache namespace and associated data loaded spread over
 type Group struct {
-	name      string
+	name string
+	//缓存未命中时获取源数据的回调(callback)
 	getter    Getter
 	mainCache cache
 }
@@ -19,9 +20,11 @@ type Getter interface {
 }
 
 // A GetterFunc implements Getter with a function.
+// 函数类型
 type GetterFunc func(key string) ([]byte, error)
 
 // Get implements Getter interface function
+//接口型函数
 func (f GetterFunc) Get(key string) ([]byte, error) {
 	return f(key)
 }
@@ -75,6 +78,7 @@ func (g *Group) load(key string) (value ByteView, err error) {
 }
 
 func (g *Group) getLocally(key string) (ByteView, error) {
+	// 缓存未命中时，获取数据源的回调
 	bytes, err := g.getter.Get(key)
 	if err != nil {
 		return ByteView{}, err

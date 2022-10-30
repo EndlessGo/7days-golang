@@ -1,6 +1,7 @@
 package geecache
 
 // A ByteView holds an immutable view of bytes.
+// 抽象只读数据结构 ByteView 用来表示缓存值
 type ByteView struct {
 	b []byte
 }
