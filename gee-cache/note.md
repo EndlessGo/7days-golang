@@ -42,3 +42,7 @@ GeeCache 基本上模仿了 groupcache 的实现，为了将代码量限制在 5
 #Day3 HTTP服务端
 介绍如何使用 Go 语言标准库 http 搭建 HTTP Server
 并实现 main 函数启动 HTTP Server 测试 API，代码约60行
+
+#Day4 一致性哈希hash
+一致性哈希(consistent hashing)的原理以及为什么要使用一致性哈希。
+实现一致性哈希代码，添加相应的测试用例，代码约60行
