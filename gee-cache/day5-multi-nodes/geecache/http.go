@@ -84,6 +84,7 @@ func (p *HTTPPool) Set(peers ...string) {
 }
 
 // PickPeer picks a peer according to key
+// 节点选择功能
 func (p *HTTPPool) PickPeer(key string) (PeerGetter, bool) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
@@ -96,6 +97,7 @@ func (p *HTTPPool) PickPeer(key string) (PeerGetter, bool) {
 
 var _ PeerPicker = (*HTTPPool)(nil)
 
+// HTTP 客户端
 type httpGetter struct {
 	baseURL string
 }
