@@ -87,6 +87,8 @@ func (g *Group) RegisterPeers(peers PeerPicker) {
 func (g *Group) load(key string) (value ByteView, err error) {
 	// each key is only fetched once (either locally or remotely)
 	// regardless of the number of concurrent callers.
+	//修改 load 函数，将原来的 load 的逻辑，
+	//使用 g.loader.Do 包裹起来即可，这样确保了并发场景下针对相同的 key，load 过程只会调用一次。
 	viewi, err := g.loader.Do(key, func() (interface{}, error) {
 		if g.peers != nil {
 			if peer, ok := g.peers.PickPeer(key); ok {
