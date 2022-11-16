@@ -164,6 +164,8 @@ func (server *Server) sendResponse(cc codec.Codec, h *codec.Header, body interfa
 
 func (server *Server) handleRequest(cc codec.Codec, req *request, sending *sync.Mutex, wg *sync.WaitGroup, timeout time.Duration) {
 	defer wg.Done()
+	//这里需要确保 sendResponse 仅调用一次，因此将整个过程拆分为 called 和 sent 两个阶段
+	//处理没有超时，继续执行 sendResponse
 	called := make(chan struct{})
 	sent := make(chan struct{})
 	go func() {
