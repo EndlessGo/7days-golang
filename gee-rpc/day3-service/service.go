@@ -7,11 +7,17 @@ import (
 	"sync/atomic"
 )
 
+type perMillage struct {
+}
 type methodType struct {
-	method    reflect.Method
-	ArgType   reflect.Type
+	// 方法本身
+	method reflect.Method
+	// 第一个参数的类型
+	ArgType reflect.Type
+	// 第二个参数的类型
 	ReplyType reflect.Type
-	numCalls  uint64
+	// 后续统计方法调用次数时会用到
+	numCalls uint64
 }
 
 func (m *methodType) NumCalls() uint64 {
@@ -22,7 +28,7 @@ func (m *methodType) newArgv() reflect.Value {
 	var argv reflect.Value
 	// arg may be a pointer type, or a value type
 	if m.ArgType.Kind() == reflect.Ptr {
-		argv = reflect.New(m.ArgType.Elem())
+		argv = reflect.New(m.ArgType.Elem()) //注意区别 Elem()在New()内还是外
 	} else {
 		argv = reflect.New(m.ArgType).Elem()
 	}
@@ -42,9 +48,13 @@ func (m *methodType) newReplyv() reflect.Value {
 }
 
 type service struct {
-	name   string
-	typ    reflect.Type
-	rcvr   reflect.Value
+	// 映射的结构体名称
+	name string
+	// 映射的结构体类型
+	typ reflect.Type
+	// 映射的结构体实例本身
+	rcvr reflect.Value
+	// 存储映射的结构体的所有符合条件的方法
 	method map[string]*methodType
 }
 
@@ -60,6 +70,9 @@ func newService(rcvr interface{}) *service {
 	return s
 }
 
+//registerMethods 过滤出了符合条件的方法：
+//两个导出或内置类型的入参（反射时为 3 个，第 0 个是自身，类似于 python 的 self，java 中的 this）
+//返回值有且只有 1 个，类型为 error
 func (s *service) registerMethods() {
 	s.method = make(map[string]*methodType)
 	for i := 0; i < s.typ.NumMethod(); i++ {
@@ -84,6 +97,7 @@ func (s *service) registerMethods() {
 	}
 }
 
+// 通过反射值调用方法
 func (s *service) call(m *methodType, argv, replyv reflect.Value) error {
 	atomic.AddUint64(&m.numCalls, 1)
 	f := m.method.Func

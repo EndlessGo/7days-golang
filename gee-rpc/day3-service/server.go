@@ -105,6 +105,7 @@ func (server *Server) readRequestHeader(cc codec.Codec) (*codec.Header, error) {
 }
 
 func (server *Server) findService(serviceMethod string) (svc *service, mtype *methodType, err error) {
+	// 服务方法格式：服务名.方法名
 	dot := strings.LastIndex(serviceMethod, ".")
 	if dot < 0 {
 		err = errors.New("rpc server: service/method request ill-formed: " + serviceMethod)
@@ -134,6 +135,7 @@ func (server *Server) readRequest(cc codec.Codec) (*request, error) {
 	if err != nil {
 		return req, err
 	}
+	//readRequest 方法中最重要的部分，即通过 newArgv() 和 newReplyv() 两个方法创建出两个入参实例
 	req.argv = req.mtype.newArgv()
 	req.replyv = req.mtype.newReplyv()
 
@@ -142,6 +144,7 @@ func (server *Server) readRequest(cc codec.Codec) (*request, error) {
 	if req.argv.Type().Kind() != reflect.Ptr {
 		argvi = req.argv.Addr().Interface()
 	}
+	//然后通过 cc.ReadBody() 将请求报文反序列化为第一个入参 argv
 	if err = cc.ReadBody(argvi); err != nil {
 		log.Println("rpc server: read body err:", err)
 		return req, err
