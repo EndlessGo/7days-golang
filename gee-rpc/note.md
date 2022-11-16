@@ -20,3 +20,8 @@ GeeRPC 的目的是以最少的代码，实现 RPC 框架中最为重要的部�
 GeeRPC 选择从零实现 Go 语言官方的标准库 net/rpc，并在此基础上，
 新增了协议交换(protocol exchange)、注册中心(registry)、服务发现(service discovery)、负载均衡(load balance)、超时处理(timeout processing)等特性。
 分七天完成，最终代码约 1000 行。
+
+
+#Day1 服务端与消息编码
+使用 encoding/gob 实现消息的编解码(序列化与反序列化)
+实现一个简易的服务端，仅接受消息，不处理，代码约 200 行

@@ -27,6 +27,7 @@ func main() {
 	go startServer(addr)
 
 	// in fact, following code is like a simple geerpc client
+	// 通道addr保证上面服务器监听成功后，客户端才会发起请求
 	conn, _ := net.Dial("tcp", <-addr)
 	defer func() { _ = conn.Close() }()
 

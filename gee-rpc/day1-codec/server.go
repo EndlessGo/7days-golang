@@ -17,6 +17,7 @@ import (
 
 const MagicNumber = 0x3bef5c
 
+// Option 编解码方式
 type Option struct {
 	MagicNumber int        // MagicNumber marks this's a geerpc request
 	CodecType   codec.Type // client may choose different Codec to encode body

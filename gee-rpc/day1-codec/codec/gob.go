@@ -7,11 +7,16 @@ import (
 	"log"
 )
 
+// GobCodec 消息体编解码器，可以类似实现一个JSONCodec
 type GobCodec struct {
+	// 连接
 	conn io.ReadWriteCloser
-	buf  *bufio.Writer
-	dec  *gob.Decoder
-	enc  *gob.Encoder
+	// 带缓冲的writer，防止阻塞
+	buf *bufio.Writer
+	// 解码
+	dec *gob.Decoder
+	// 编码
+	enc *gob.Encoder
 }
 
 var _ Codec = (*GobCodec)(nil)
