@@ -9,8 +9,11 @@ import (
 
 type GeeRegistryDiscovery struct {
 	*MultiServersDiscovery
-	registry   string
-	timeout    time.Duration
+	// 注册中心的地址
+	registry string
+	// 服务列表的过期时间
+	timeout time.Duration
+	// 最后从注册中心更新服务列表的时间
 	lastUpdate time.Time
 }
 
@@ -27,6 +30,7 @@ func (d *GeeRegistryDiscovery) Update(servers []string) error {
 func (d *GeeRegistryDiscovery) Refresh() error {
 	d.mu.Lock()
 	defer d.mu.Unlock()
+	// 超时
 	if d.lastUpdate.Add(d.timeout).After(time.Now()) {
 		return nil
 	}

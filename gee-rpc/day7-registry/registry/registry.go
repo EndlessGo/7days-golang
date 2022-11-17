@@ -38,6 +38,7 @@ func New(timeout time.Duration) *GeeRegistry {
 
 var DefaultGeeRegister = New(defaultTimeout)
 
+// 添加服务实例，如果服务已经存在，则更新 start
 func (r *GeeRegistry) putServer(addr string) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
@@ -49,6 +50,7 @@ func (r *GeeRegistry) putServer(addr string) {
 	}
 }
 
+// 回可用的服务列表，如果存在超时的服务，则删除。
 func (r *GeeRegistry) aliveServers() []string {
 	r.mu.Lock()
 	defer r.mu.Unlock()
@@ -67,9 +69,11 @@ func (r *GeeRegistry) aliveServers() []string {
 // Runs at /_geerpc_/registry
 func (r *GeeRegistry) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	switch req.Method {
+	// Get：返回所有可用的服务列表，通过自定义字段 X-Geerpc-Servers 承载。
 	case "GET":
 		// keep it simple, server is in req.Header
 		w.Header().Set("X-Geerpc-Servers", strings.Join(r.aliveServers(), ","))
+	// Post：添加服务实例或发送心跳，通过自定义字段 X-Geerpc-Server 承载。
 	case "POST":
 		// keep it simple, server is in req.Header
 		addr := req.Header.Get("X-Geerpc-Server")
@@ -95,6 +99,7 @@ func HandleHTTP() {
 
 // Heartbeat send a heartbeat message every once in a while
 // it's a helper function for a server to register or send heartbeat
+// 服务器启动时定时向注册中心发送心跳
 func Heartbeat(registry, addr string, duration time.Duration) {
 	if duration == 0 {
 		// make sure there is enough time to send heart beat
@@ -103,6 +108,7 @@ func Heartbeat(registry, addr string, duration time.Duration) {
 	}
 	var err error
 	err = sendHeartbeat(registry, addr)
+	// 心跳协程
 	go func() {
 		t := time.NewTicker(duration)
 		for err == nil {
