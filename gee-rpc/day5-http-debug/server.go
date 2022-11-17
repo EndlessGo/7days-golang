@@ -234,6 +234,11 @@ const (
 	defaultDebugPath = "/debug/geerpc"
 )
 
+//只需要实现接口 Handler 即可作为一个 HTTP Handler 处理 HTTP 请求
+//接口 Handler 只定义了一个方法 ServeHTTP，实现该方法即可。
+//type Handler interface {
+//	ServeHTTP(ResponseWriter, *Request)
+//}
 // ServeHTTP implements an http.Handler that answers RPC requests.
 func (server *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	if req.Method != "CONNECT" {

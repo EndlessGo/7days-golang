@@ -3,6 +3,8 @@
 # 自学补充知识
 day1
     reflect.New(reflect.TypeOf(""))
+day5
+    http.Hijacker
 
 #Day0 序言
 1、RPC框架
@@ -38,3 +40,7 @@ GeeRPC 选择从零实现 Go 语言官方的标准库 net/rpc，并在此基础�
 #Day4 超时处理
 增加连接超时的处理机制
 增加服务端处理超时的处理机制，代码约 100 行
+
+#Day5 支持HTTP协议
+支持 HTTP 协议
+基于 HTTP 实现一个简单的 Debug 页面，代码约 150 行。
