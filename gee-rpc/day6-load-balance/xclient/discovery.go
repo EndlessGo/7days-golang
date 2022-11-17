@@ -34,11 +34,13 @@ type MultiServersDiscovery struct {
 }
 
 // Refresh doesn't make sense for MultiServersDiscovery, so ignore it
+// 从注册中心更新服务列表
 func (d *MultiServersDiscovery) Refresh() error {
 	return nil
 }
 
 // Update the servers of discovery dynamically if needed
+// 手动更新服务列表
 func (d *MultiServersDiscovery) Update(servers []string) error {
 	d.mu.Lock()
 	defer d.mu.Unlock()
@@ -47,6 +49,7 @@ func (d *MultiServersDiscovery) Update(servers []string) error {
 }
 
 // Get a server according to mode
+// 根据负载均衡策略，选择一个服务实例
 func (d *MultiServersDiscovery) Get(mode SelectMode) (string, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
@@ -66,7 +69,8 @@ func (d *MultiServersDiscovery) Get(mode SelectMode) (string, error) {
 	}
 }
 
-// returns all servers in discovery
+// GetAll returns all servers in discovery
+// 返回所有的服务实例
 func (d *MultiServersDiscovery) GetAll() ([]string, error) {
 	d.mu.RLock()
 	defer d.mu.RUnlock()

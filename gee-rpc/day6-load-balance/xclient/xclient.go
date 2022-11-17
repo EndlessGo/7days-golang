@@ -18,6 +18,7 @@ type XClient struct {
 
 var _ io.Closer = (*XClient)(nil)
 
+// NewXClient 服务发现实例 Discovery、负载均衡模式 SelectMode 以及协议选项 Option
 func NewXClient(d Discovery, mode SelectMode, opt *Option) *XClient {
 	return &XClient{d: d, mode: mode, opt: opt, clients: make(map[string]*Client)}
 }
@@ -36,12 +37,16 @@ func (xc *XClient) Close() error {
 func (xc *XClient) dial(rpcAddr string) (*Client, error) {
 	xc.mu.Lock()
 	defer xc.mu.Unlock()
+	// 检查 xc.clients 是否有缓存的 Client
 	client, ok := xc.clients[rpcAddr]
+	// 如果有，检查是否是可用状态
 	if ok && !client.IsAvailable() {
+		//如果是则返回缓存的 Client，如果不可用，则从缓存中删除。
 		_ = client.Close()
 		delete(xc.clients, rpcAddr)
 		client = nil
 	}
+	// 没有返回缓存的 Client，则说明需要创建新的 Client，缓存并返回
 	if client == nil {
 		var err error
 		client, err = XDial(rpcAddr, xc.opt)
@@ -73,6 +78,10 @@ func (xc *XClient) Call(ctx context.Context, serviceMethod string, args, reply i
 }
 
 // Broadcast invokes the named function for every server registered in discovery
+// 将请求广播到所有的服务实例
+// 为了提升性能，请求是并发的。
+// 并发情况下需要使用互斥锁保证 error 和 reply 能被正确赋值。
+// 借助 context.WithCancel 确保有错误发生时，快速失败。
 func (xc *XClient) Broadcast(ctx context.Context, serviceMethod string, args, reply interface{}) error {
 	servers, err := xc.d.GetAll()
 	if err != nil {

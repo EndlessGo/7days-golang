@@ -44,3 +44,6 @@ GeeRPC 选择从零实现 Go 语言官方的标准库 net/rpc，并在此基础�
 #Day5 支持HTTP协议
 支持 HTTP 协议
 基于 HTTP 实现一个简单的 Debug 页面，代码约 150 行。
+
+#Day6 负载均衡
+通过随机选择和 Round Robin 轮询调度算法实现服务端负载均衡，代码约 250 行
