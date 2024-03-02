@@ -7,11 +7,11 @@ import (
 )
 
 // A Group is a cache namespace and associated data loaded spread over
+// 具名的缓存空间
 type Group struct {
-	name string
-	//缓存未命中时获取源数据的回调(callback)
-	getter    Getter
-	mainCache cache
+	name      string // 缓存名称
+	getter    Getter // 缓存未命中时获取源数据的回调(callback)，由用户自定义
+	mainCache cache  // 并发lru
 }
 
 // A Getter loads data for a key.
@@ -24,14 +24,14 @@ type Getter interface {
 type GetterFunc func(key string) ([]byte, error)
 
 // Get implements Getter interface function
-//接口型函数
+// 接口型函数
 func (f GetterFunc) Get(key string) ([]byte, error) {
 	return f(key)
 }
 
 var (
-	mu     sync.RWMutex
-	groups = make(map[string]*Group)
+	mu     sync.RWMutex              // 读写锁
+	groups = make(map[string]*Group) // 多组具名的缓存空间
 )
 
 // NewGroup create a new instance of Group

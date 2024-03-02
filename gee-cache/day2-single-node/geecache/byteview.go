@@ -1,9 +1,9 @@
 package geecache
 
 // A ByteView holds an immutable view of bytes.
-// 抽象只读数据结构 ByteView 用来表示缓存值
+// ByteView 缓存值的抽象与封装
 type ByteView struct {
-	b []byte
+	b []byte //选择byte类型是为了能够支持任意的数据类型的存储，例如字符串、图片等。
 }
 
 // Len returns the view's length
@@ -13,6 +13,7 @@ func (v ByteView) Len() int {
 
 // ByteSlice returns a copy of the data as a byte slice.
 func (v ByteView) ByteSlice() []byte {
+	// 只读，拷贝一份
 	return cloneBytes(v.b)
 }
 
