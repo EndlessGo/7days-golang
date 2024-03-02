@@ -6,12 +6,12 @@ import "container/list"
 type Cache struct {
 	// go标准库实现的双向链表
 	ll *list.List
-	// 字典，键是字符串，而不是
+	// 字典，键是字符串，不是任意类型
 	cache map[string]*list.Element
 	// 感觉不需要 maxBytes和nBytes两个字段，直接一个size即可
 	// 最大字节数
 	maxBytes int64
-	// 当前已使用的内存
+	// 当前已使用的内存，大小包括cache的key和entry的value字节数
 	nBytes int64
 	// optional and executed when an entry is purged.
 	// 记录被移除时的回调
@@ -26,7 +26,7 @@ type entry struct {
 
 // Value use Len to count how many bytes it takes
 type Value interface {
-	Len() int
+	Len() int // 字节数，数据长度
 }
 
 // New is the Constructor of Cache
@@ -47,6 +47,7 @@ func (c *Cache) Add(key string, value Value) {
 		// 更新
 		c.ll.MoveToFront(ele)
 		kv := ele.Value.(*entry)
+		// 新值的大小更新
 		c.nBytes += int64(value.Len()) - int64(kv.value.Len())
 		kv.value = value
 	} else {
