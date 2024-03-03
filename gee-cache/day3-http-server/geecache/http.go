@@ -12,15 +12,15 @@ const defaultBasePath = "/_geecache/"
 // HTTPPool implements PeerPicker for a pool of HTTP peers.
 type HTTPPool struct {
 	// this peer's base URL, e.g. "https://example.net:8000"
-	self     string
-	basePath string
+	self     string //主机名/IP+端口
+	basePath string //节点通讯地址前缀
 }
 
 // NewHTTPPool initializes an HTTP pool of peers.
 func NewHTTPPool(self string) *HTTPPool {
 	return &HTTPPool{
 		self:     self,
-		basePath: defaultBasePath,
+		basePath: defaultBasePath, // 前缀/_geecache/
 	}
 }
 
@@ -37,13 +37,16 @@ func (p *HTTPPool) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	p.Log("%s %s", r.Method, r.URL.Path)
 	// /<basepath>/<groupname>/<key> required
 	// 按上述格式定义，拆分成3个子串parts[0][1][2]
+	// 前缀后的部分，按"/"分割成2个子串
 	parts := strings.SplitN(r.URL.Path[len(p.basePath):], "/", 2)
 	if len(parts) != 2 {
 		http.Error(w, "bad request", http.StatusBadRequest)
 		return
 	}
 
+	// 缓存组名
 	groupName := parts[0]
+	// 缓存键
 	key := parts[1]
 
 	group := GetGroup(groupName)
@@ -59,5 +62,6 @@ func (p *HTTPPool) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/octet-stream")
+	// 将缓存值作为 httpResponse 的 body 返回
 	w.Write(view.ByteSlice())
 }
