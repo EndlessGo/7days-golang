@@ -16,12 +16,14 @@ GeeCache是模仿groupcache，简化设计的分布式缓存系统。
 
 # 目录
 
-- [x] LRU 缓存淘汰策略
+实践后算完成！
+
+- [ ] LRU 缓存淘汰策略
   - [x] FIFO/LFU/LRU 算法简介
-  - [x] LRU 算法实现
+  - [ ] LRU 算法实现
 
 - [ ] 单机并发缓存
-  - [ ] sync.Mutex 互斥锁
+  - [x] sync.Mutex 互斥锁
   - [ ] 互斥锁封装LRU，支持并发读写
   - [ ] GeeCache核心数据结构Group，负责与用户交互，控制缓存值和获取的流程
 
