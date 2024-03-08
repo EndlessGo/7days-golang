@@ -8,7 +8,6 @@ type Cache struct {
 	ll *list.List
 	// 字典，键是字符串，不是任意类型
 	cache map[string]*list.Element
-	// 感觉不需要 maxBytes和nBytes两个字段，直接一个size即可
 	// 最大字节数
 	maxBytes int64
 	// 当前已使用的内存，大小包括cache的key和entry的value字节数
