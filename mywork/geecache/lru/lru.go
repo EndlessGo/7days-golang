@@ -1,3 +1,5 @@
+// package lru 实现了一个单线程lru缓存
+
 package lru
 
 import "container/list"
