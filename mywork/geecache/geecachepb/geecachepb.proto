@@ -1,8 +1,14 @@
 syntax = "proto3";
 
 package geecachepb;
+option go_package = ".;geecachepb";
 
 // https://zhuanlan.zhihu.com/p/346402463 如何在Mac本上安装Brew
+// brew install protobuf
+// brew install protoc-gen-go
+
+// https://www.jianshu.com/p/cad2660cf04b
+// 解决错误 protoc-gen-go: unable to determine Go import path for "geecachepb.proto"
 
 message Request {
   string group = 1;
