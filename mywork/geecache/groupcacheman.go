@@ -1,6 +1,9 @@
 package geecache
 
-import "sync"
+import (
+	"geecache/singleflight"
+	"sync"
+)
 
 var (
 	mu     sync.RWMutex
@@ -20,6 +23,7 @@ func NewGroup(name string, maxBytes int64, getter Getter) *Group {
 		mainCache: cache{
 			maxBytes: maxBytes,
 		},
+		loader: &singleflight.Group{},
 	}
 	groups[name] = g
 	return g
