@@ -12,4 +12,6 @@ curl "http://localhost:9999/api?key=Tom" &
 curl "http://localhost:9999/api?key=Tom" &
 curl "http://localhost:9999/api?key=Tom" &
 
+# https://www.zhihu.com/question/494106549
+# mac zsh 会打一个%
 wait
